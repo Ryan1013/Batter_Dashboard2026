@@ -298,87 +298,86 @@ if len(caught) > 0:
 else:
     st.write("No caught dismissals.")
 
-
 # ---------------- BEEHIVE ---------------- #
 
-st.subheader("Beehive – Boundaries & Dismissals")
+st.subheader("Beehive")
 
 beehive_data = filtered[
     filtered['Analyst Arrival Line'].notna() &
     filtered['Analyst Arrival Height'].notna()
-]
+].copy()
 
 if len(beehive_data) > 0:
 
-    fig_beehive = go.Figure()
+    fig = go.Figure()
 
-    # Get coordinate range dynamically
-    x_min = beehive_data['Analyst Arrival Line'].min()
-    x_max = beehive_data['Analyst Arrival Line'].max()
-    y_min = beehive_data['Analyst Arrival Height'].min()
-    y_max = beehive_data['Analyst Arrival Height'].max()
+    img = Image.open("beehive_background.jpg")
+    img_width, img_height = img.size
 
-    # Add background properly scaled
-    try:
-        img = Image.open("beehive_background.jpg")
+    # 🔽 Wider look, reduced vertical height
+    x_min_m = -1.83
+    x_max_m =  1.83
 
-        fig_beehive.add_layout_image(
-            dict(
-                source=img,
-                xref="x",
-                yref="y",
-                x=x_min,
-                y=y_max,
-                sizex=(x_max - x_min),
-                sizey=(y_max - y_min),
-                sizing="stretch",
-                layer="below"
-            )
+    y_min_m = 0
+    y_max_m = 2.0   # ← reduce this to compress vertically
+
+    fig.add_layout_image(
+        dict(
+            source=img,
+            xref="x",
+            yref="y",
+            x=x_min_m,
+            y=y_max_m,
+            sizex=(x_max_m - x_min_m),
+            sizey=(y_max_m - y_min_m),
+            sizing="stretch",
+            layer="below"
         )
-    except Exception as e:
-        st.write("Background not found:", e)
+    )
 
-    # ---- 4s ----
-    fours = beehive_data[beehive_data['Runs'] == 4]
-
-    fig_beehive.add_trace(go.Scatter(
-        x=fours['Analyst Arrival Line'],
-        y=fours['Analyst Arrival Height'],
+    fig.add_trace(go.Scatter(
+        x=beehive_data[beehive_data['Runs'] == 4]['Analyst Arrival Line'],
+        y=beehive_data[beehive_data['Runs'] == 4]['Analyst Arrival Height'],
         mode="markers",
-        marker=dict(size=10, color="#00C800", line=dict(width=1,color="black")),
+        marker=dict(size=9, color="green",
+                    line=dict(width=1, color="black")),
         name="4 Runs"
     ))
 
-    # ---- 6s ----
-    sixes = beehive_data[beehive_data['Runs'] == 6]
-
-    fig_beehive.add_trace(go.Scatter(
-        x=sixes['Analyst Arrival Line'],
-        y=sixes['Analyst Arrival Height'],
+    fig.add_trace(go.Scatter(
+        x=beehive_data[beehive_data['Runs'] == 6]['Analyst Arrival Line'],
+        y=beehive_data[beehive_data['Runs'] == 6]['Analyst Arrival Height'],
         mode="markers",
-        marker=dict(size=12, color="#FF0000", line=dict(width=1,color="black")),
+        marker=dict(size=11, color="red",
+                    line=dict(width=1, color="black")),
         name="6 Runs"
     ))
 
-    # ---- Dismissals ----
-    dismissals = beehive_data[beehive_data['Wicket'].notna()]
-
-    fig_beehive.add_trace(go.Scatter(
-        x=dismissals['Analyst Arrival Line'],
-        y=dismissals['Analyst Arrival Height'],
+    fig.add_trace(go.Scatter(
+        x=beehive_data[beehive_data['Wicket'].notna()]['Analyst Arrival Line'],
+        y=beehive_data[beehive_data['Wicket'].notna()]['Analyst Arrival Height'],
         mode="markers",
-        marker=dict(symbol="x", size=14, color="black", line=dict(width=2)),
+        marker=dict(symbol="x", size=14,
+                    color="black", line=dict(width=2)),
         name="Dismissal"
     ))
 
-    fig_beehive.update_layout(
-        height=850,
-        xaxis=dict(range=[x_min, x_max], visible=False),
-        yaxis=dict(range=[y_min, y_max], visible=False),
-        legend=dict(orientation="h", y=1.05, x=0.5, xanchor="center")
+    fig.update_layout(
+        height=700,
+        xaxis=dict(range=[x_min_m, x_max_m], visible=False),
+        yaxis=dict(range=[y_min_m, y_max_m], visible=False),
+        legend=dict(
+            orientation="h",
+            y=1,
+            x=0.5,
+            xanchor="center"
+        ),
+        margin=dict(l=0, r=0, t=0, b=0)
     )
 
-    st.plotly_chart(fig_beehive, width="stretch")
+    fig.update_yaxes(scaleanchor="x")
+
+    st.plotly_chart(fig, width="stretch")
 
 else:
     st.write("No delivery data available.")
