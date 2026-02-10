@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 from PIL import Image
 
 st.set_page_config(layout="wide")
-st.title("Batter Dashboard")
+st.title("One-Day Batter Dashboard")
 
 # ---------------- LOAD DATA ---------------- #
 
@@ -24,22 +24,57 @@ def load_data():
 
 data = load_data()
 
+# ---------------- VIDEO LINKS ---------------- #
+
+video_links = {
+    "MR Reid": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260209_PLAYLIST_1080_1_2_3_4_5_6.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260209_PLAYLIST_1080_1_2_3_4_5_6_7.mp4"
+    },
+    "A Dowse": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/leicestershire-women-v-middlesex-women---16-aug-2025/VPM_260209_LEIW_MIDW_PLAYLIST_1080.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/leicestershire-women-v-middlesex-women---16-aug-2025/VPM_260209_LEIW_MIDW_PLAYLIST_1080_1.mp4"
+    }
+}
+
 # ---------------- SIDEBAR FILTERS ---------------- #
 
 st.sidebar.header("Filters")
 
+# ---------------- TEAM SELECTION (MULTI) ---------------- #
+
 teams = sorted(data['Batting Team'].dropna().unique())
+
+default_team = "Middlesex Women" if "Middlesex Women" in teams else teams[0]
+
 selected_teams = st.sidebar.multiselect(
     "Batting Team",
     teams,
-    default=teams
+    default=[default_team]
 )
 
-batters = sorted(data['Batter'].dropna().unique())
+# ---------------- BATTER SELECTION (DEPENDENT ON TEAM) ---------------- #
+
+if selected_teams:
+    team_filtered_data = data[data['Batting Team'].isin(selected_teams)]
+else:
+    team_filtered_data = data.copy()
+
+team_batters = sorted(team_filtered_data['Batter'].dropna().unique())
+
+# Default batter logic:
+if default_team in selected_teams:
+    default_batters = sorted(
+        data[data['Batting Team'] == default_team]['Batter'].dropna().unique()
+    )
+    default_selection = [default_batters[0]] if len(default_batters) > 0 else []
+else:
+    default_selection = [team_batters[0]] if len(team_batters) > 0 else []
+
 selected_batters = st.sidebar.multiselect(
     "Batter",
-    batters,
-    default=batters[:1]
+    team_batters,
+    default=default_selection
 )
 
 selected_bowling = st.sidebar.multiselect(
@@ -49,27 +84,40 @@ selected_bowling = st.sidebar.multiselect(
 )
 
 selected_runs = st.sidebar.multiselect(
-    "Runs to Display",
+    "Runs to Display in Wagon Wheel",
     [1,2,3,4,5,6],
     default=[1,2,3,4,5,6]
+)
+
+# ---------------- BEEHIVE FILTER ---------------- #
+
+st.sidebar.subheader("Beehive Filters")
+
+beehive_options = st.sidebar.multiselect(
+    "Show in Beehive",
+    ["4 Runs", "6 Runs", "Dismissals"],
+    default=["4 Runs", "6 Runs", "Dismissals"]
 )
 
 # ---------------- APPLY FILTERS ---------------- #
 
 filtered = data.copy()
 
+# Filter by selected teams
 if selected_teams:
     filtered = filtered[filtered['Batting Team'].isin(selected_teams)]
 
+# Filter by selected batters
 if selected_batters:
     filtered = filtered[filtered['Batter'].isin(selected_batters)]
 
+# Filter by bowling type
 if selected_bowling:
     filtered = filtered[filtered['Bowling Type'].isin(selected_bowling)]
 
 # ---------------- KPI SECTION ---------------- #
 
-st.subheader("Performance Metrics")
+st.subheader("Batting Stats")
 
 total_runs = filtered['Runs'].sum()
 
@@ -104,14 +152,26 @@ if total_runs > 0:
 else:
     boundary_percentage = 0
 
-col1, col2, col3, col4, col5, col6 = st.columns(6)
+# Scoring Shot %
+scoring_shots = filtered[
+    (~filtered['Extra'].astype(str).str.contains("Wide", case=False, na=False)) &
+    (filtered['Runs'] > 0)
+].shape[0]
+
+if balls_faced > 0:
+    scoring_shot_percentage = round((scoring_shots / balls_faced) * 100, 2)
+else:
+    scoring_shot_percentage = 0
+
+col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
 
 col1.metric("Runs", total_runs)
 col2.metric("Balls Faced", balls_faced)
 col3.metric("Dismissals", dismissals_count)
 col4.metric("Average", batting_average)
 col5.metric("Strike Rate", strike_rate)
-col6.metric("Boundary Runs %", boundary_percentage)
+col6.metric("Scoring Shot %", scoring_shot_percentage)
+col7.metric("Boundary Runs %", boundary_percentage)
 
 # ---------------- WAGON WHEEL ---------------- #
 
@@ -335,6 +395,8 @@ if len(beehive_data) > 0:
         )
     )
 
+# ---------- 4 RUNS ----------
+if "4 Runs" in beehive_options:
     fig.add_trace(go.Scatter(
         x=beehive_data[beehive_data['Runs'] == 4]['Analyst Arrival Line'],
         y=beehive_data[beehive_data['Runs'] == 4]['Analyst Arrival Height'],
@@ -344,6 +406,8 @@ if len(beehive_data) > 0:
         name="4 Runs"
     ))
 
+# ---------- 6 RUNS ----------
+if "6 Runs" in beehive_options:
     fig.add_trace(go.Scatter(
         x=beehive_data[beehive_data['Runs'] == 6]['Analyst Arrival Line'],
         y=beehive_data[beehive_data['Runs'] == 6]['Analyst Arrival Height'],
@@ -353,12 +417,18 @@ if len(beehive_data) > 0:
         name="6 Runs"
     ))
 
+# ---------- DISMISSALS ----------
+if "Dismissals" in beehive_options:
     fig.add_trace(go.Scatter(
         x=beehive_data[beehive_data['Wicket'].notna()]['Analyst Arrival Line'],
         y=beehive_data[beehive_data['Wicket'].notna()]['Analyst Arrival Height'],
         mode="markers",
-        marker=dict(symbol="x", size=14,
-                    color="black", line=dict(width=2)),
+        marker=dict(
+            symbol="x",
+            size=14,
+            color="black",
+            line=dict(width=2)
+        ),
         name="Dismissal"
     ))
 
@@ -381,3 +451,28 @@ if len(beehive_data) > 0:
 
 else:
     st.write("No delivery data available.")
+
+    # ---------------- VIDEO SECTION ---------------- #
+
+st.subheader("Videos (Pace + Spin)")
+
+if len(selected_batters) == 1:
+    batter_name = selected_batters[0]
+
+    if batter_name in video_links:
+
+        batter_videos = video_links[batter_name]
+
+        if "dismissal" in batter_videos:
+            st.markdown("**Dismissal Clips**")
+            st.video(batter_videos["dismissal"])
+
+        if "boundary" in batter_videos:
+            st.markdown("**Boundary Clips**")
+            st.video(batter_videos["boundary"])
+
+    else:
+        st.write("No video links available for selected batter.")
+
+else:
+    st.write("Select a single batter to view video highlights.")
