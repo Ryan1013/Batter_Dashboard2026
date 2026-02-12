@@ -27,13 +27,77 @@ data = load_data()
 # ---------------- VIDEO LINKS ---------------- #
 
 video_links = {
-    "MR Reid": {
-        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260209_PLAYLIST_1080_1_2_3_4_5_6.mp4",
-        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260209_PLAYLIST_1080_1_2_3_4_5_6_7.mp4"
-    },
     "A Dowse": {
-        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/leicestershire-women-v-middlesex-women---16-aug-2025/VPM_260209_LEIW_MIDW_PLAYLIST_1080.mp4",
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/leicestershire-women-v-middlesex-women---16-aug-2025/VPM_260211_LEIW_MIDW_PLAYLIST_1080.mp4",
         "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/leicestershire-women-v-middlesex-women---16-aug-2025/VPM_260209_LEIW_MIDW_PLAYLIST_1080_1.mp4"
+    },
+    "A Patel": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/middlesex-women-v-yorkshire-women---7-sep-2025/VPM_260211_MIDW_YORW_PLAYLIST_1080.mp4"
+    },
+     "AE Downer": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080_1.mp4"
+    },
+     "FM Trussler": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3.mp4"
+    },
+    "GKS Gole": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080_1_2_3_4_5.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4.mp4"
+    },
+    "GV Irving": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080_1_2_3_4_5_6_7_8.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080_1_2_3_4_5_6_7.mp4"
+    },
+    "HR Davis": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080_1_2_3_4_5_6_7_8_9.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/yorkshire-women-v-middlesex-women---2-aug-2025/VPM_260211_YORW_MIDW_PLAYLIST_1080.mp4"
+    },
+    "IFK Routledge": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11.mp4"
+    },
+    "KJ Wolfe": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260211_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18.mp4"
+    },
+    "L Turner": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/northamptonshire-steelbacks-women-v-middlesex-women---3-may-2025/VPM_260212_NORW_MIDW_PLAYLIST_1080.mp4",
+    },
+    "MEW Rogers": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/sussex-sharks-women-v-middlesex-women---25-aug-2025/VPM_260212_SUSW_MIDW_PLAYLIST_480.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/sussex-sharks-women-v-middlesex-women---25-aug-2025/VPM_260212_SUSW_MIDW_PLAYLIST_720.mp4"
+    },
+    "NT Miles": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8.mp4"
+    },
+    "OM Kibler": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/sussex-sharks-women-v-middlesex-women---25-aug-2025/VPM_260212_SUSW_MIDW_PLAYLIST_300.mp4",
+    },
+    "PN Sproul": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11.mp4"
+    },
+    "R Pindoria": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13.mp4"
+    },
+    "RN Cambampaty": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/glamorgan-women-v-middlesex-women---27-apr-2025/VPM_260212_GLAMW_MIDW_PLAYLIST_1080.mp4",
+    },
+    "S Patel": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/glamorgan-women-v-middlesex-women---27-apr-2025/VPM_260212_GLAMW_MIDW_PLAYLIST_720.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/sussex-sharks-women-v-middlesex-women---25-aug-2025/VPM_260212_SUSW_MIDW_PLAYLIST_1080_1.mp4"
+    },
+    "S Pearson": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/yorkshire-women-v-middlesex-women---2-aug-2025/VPM_260212_YORW_MIDW_PLAYLIST_1080.mp4"
+    },
+    "SM Horley": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16.mp4"
     }
 }
 
