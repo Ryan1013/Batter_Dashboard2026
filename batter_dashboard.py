@@ -190,14 +190,18 @@ balls_faced = filtered[
     ~filtered['Extra'].astype(str).str.contains("Wide", case=False, na=False)
 ].shape[0]
 
-dismissals_count = filtered[
-    filtered['Wicket'].notna() &
-    ~filtered['Wicket'].isin([
-        'Retired Hurt',
-        'Retired - Not Out',
-        'Absent'
-    ])
-].shape[0]
+if len(selected_batters) == 1:
+    # Batter-specific dismissal count
+    dismissals_count = filtered[
+        filtered['Dismissed Batter'].astype(str).str.strip() ==
+        selected_batters[0].strip()
+    ].shape[0]
+else:
+    # Team / multi-batter dismissal count
+    dismissals_count = filtered[
+        filtered['Dismissed Batter'].notna() &
+        (filtered['Dismissed Batter'].astype(str).str.strip() != "")
+    ].shape[0]
 
 if dismissals_count > 0:
     batting_average = round(total_runs / dismissals_count, 2)
@@ -330,7 +334,9 @@ else:
 
 st.subheader("Dismissal Breakdown")
 
-dismissals = filtered[filtered['Wicket'].notna()]
+dismissals = filtered[
+    filtered['Dismissed Batter'].isin(selected_batters)
+]
 
 if len(dismissals) > 0:
 
@@ -484,8 +490,12 @@ if "6 Runs" in beehive_options:
 # ---------- DISMISSALS ----------
 if "Dismissals" in beehive_options:
     fig.add_trace(go.Scatter(
-        x=beehive_data[beehive_data['Wicket'].notna()]['Analyst Arrival Line'],
-        y=beehive_data[beehive_data['Wicket'].notna()]['Analyst Arrival Height'],
+        x=beehive_data[
+            beehive_data['Dismissed Batter'].isin(selected_batters)
+        ]['Analyst Arrival Line'],
+        y=beehive_data[
+            beehive_data['Dismissed Batter'].isin(selected_batters)
+        ]['Analyst Arrival Height'],
         mode="markers",
         marker=dict(
             symbol="x",
