@@ -3,9 +3,6 @@ import pandas as pd
 import plotly.graph_objects as go
 from PIL import Image
 
-st.set_page_config(layout="wide")
-st.title("One-Day Batter Dashboard")
-
 def detect_mobile():
     try:
         user_agent = st.context.headers["user-agent"]
@@ -15,6 +12,34 @@ def detect_mobile():
         return False
 
 is_mobile = detect_mobile()
+
+st.set_page_config(layout="wide")
+
+st.markdown("""
+<style>
+
+/* Only apply on smaller screens (mobile) */
+@media (max-width: 768px) {
+
+    /* Style hamburger container */
+    [data-testid="collapsedControl"] {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Add the word Filters */
+    [data-testid="collapsedControl"]::after {
+        content: "  Filters";
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+st.title("One-Day Batter Dashboard")
 
 def apply_responsive_legend(fig):
     if is_mobile:
@@ -515,7 +540,7 @@ if len(caught) > 0:
 else:
     st.write("No caught dismissals.")
 
-    # ---------------- BEEHIVE ---------------- #
+# ---------------- BEEHIVE ---------------- #
 
 st.subheader("Beehive")
 
@@ -617,7 +642,7 @@ if len(beehive_data) > 0:
 else:
     st.write("No delivery data available.")
 
-    # ---------------- VIDEO SECTION ---------------- #
+# ---------------- VIDEO SECTION ---------------- #
 
 st.subheader("Videos (Pace + Spin)")
 
