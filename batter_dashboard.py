@@ -18,17 +18,17 @@ st.set_page_config(layout="wide")
 st.markdown("""
 <style>
 
-/* Only apply on smaller screens (mobile) */
+/* Mobile only */
 @media (max-width: 768px) {
 
-    /* Style hamburger container */
-    [data-testid="collapsedControl"] {
-        display: flex;
-        align-items: center;
+    /* Target sidebar toggle button */
+    header button {
+        display: flex !important;
+        align-items: center !important;
     }
 
-    /* Add the word Filters */
-    [data-testid="collapsedControl"]::after {
+    /* Add Filters text */
+    header button::after {
         content: "  Filters";
         font-weight: 600;
         font-size: 15px;
