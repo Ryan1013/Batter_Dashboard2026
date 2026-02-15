@@ -6,6 +6,39 @@ from PIL import Image
 st.set_page_config(layout="wide")
 st.title("One-Day Batter Dashboard")
 
+def detect_mobile():
+    try:
+        user_agent = st.context.headers["user-agent"]
+        mobile_keywords = ["Mobile", "Android", "iPhone", "iPad"]
+        return any(keyword in user_agent for keyword in mobile_keywords)
+    except:
+        return False
+
+is_mobile = detect_mobile()
+
+def apply_responsive_legend(fig):
+    if is_mobile:
+        fig.update_layout(
+            legend=dict(
+                orientation="h",
+                y=-0.20,
+                x=0.5,
+                xanchor="center"
+            ),
+            margin=dict(l=0, r=0, t=10, b=80)
+        )
+    else:
+        fig.update_layout(
+            legend=dict(
+                orientation="h",
+                y=1.05,
+                x=0.5,
+                xanchor="center"
+            ),
+            margin=dict(l=0, r=0, t=40, b=20)
+        )
+
+
 # ---------------- LOAD DATA ---------------- #
 
 @st.cache_data
@@ -327,6 +360,8 @@ if len(wagon) > 0:
 
     fig.update_layout(dragmode=False)
 
+    apply_responsive_legend(fig)
+
     st.plotly_chart(
     fig,
     use_container_width=True,
@@ -379,6 +414,8 @@ if len(dismissals) > 0:
     )
 
     fig_pie.update_layout(dragmode=False)
+
+    apply_responsive_legend(fig_pie)
 
     st.plotly_chart(
     fig_pie,
@@ -457,6 +494,8 @@ if len(caught) > 0:
 
     fig_catch.update_layout(dragmode=False)
 
+    apply_responsive_legend(fig_catch)
+
     st.plotly_chart(
     fig_catch,
     use_container_width=True,
@@ -476,7 +515,7 @@ if len(caught) > 0:
 else:
     st.write("No caught dismissals.")
 
-# ---------------- BEEHIVE ---------------- #
+    # ---------------- BEEHIVE ---------------- #
 
 st.subheader("Beehive")
 
@@ -490,14 +529,11 @@ if len(beehive_data) > 0:
     fig = go.Figure()
 
     img = Image.open("beehive_background.jpg")
-    img_width, img_height = img.size
 
-    # 🔽 Wider look, reduced vertical height
     x_min_m = -1.83
-    x_max_m =  1.83
-
+    x_max_m = 1.83
     y_min_m = 0
-    y_max_m = 2.0   # ← reduce this to compress vertically
+    y_max_m = 2.0
 
     fig.add_layout_image(
         dict(
@@ -513,80 +549,70 @@ if len(beehive_data) > 0:
         )
     )
 
-# ---------- 4 RUNS ----------
-if "4 Runs" in beehive_options:
-    fig.add_trace(go.Scatter(
-        x=beehive_data[beehive_data['Runs'] == 4]['Analyst Arrival Line'],
-        y=beehive_data[beehive_data['Runs'] == 4]['Analyst Arrival Height'],
-        mode="markers",
-        marker=dict(size=9, color="green",
-                    line=dict(width=1, color="black")),
-        name="4 Runs"
-    ))
+    if "4 Runs" in beehive_options:
+        fig.add_trace(go.Scatter(
+            x=beehive_data[beehive_data['Runs'] == 4]['Analyst Arrival Line'],
+            y=beehive_data[beehive_data['Runs'] == 4]['Analyst Arrival Height'],
+            mode="markers",
+            marker=dict(size=9, color="green",
+                        line=dict(width=1, color="black")),
+            name="4 Runs"
+        ))
 
-# ---------- 6 RUNS ----------
-if "6 Runs" in beehive_options:
-    fig.add_trace(go.Scatter(
-        x=beehive_data[beehive_data['Runs'] == 6]['Analyst Arrival Line'],
-        y=beehive_data[beehive_data['Runs'] == 6]['Analyst Arrival Height'],
-        mode="markers",
-        marker=dict(size=11, color="red",
-                    line=dict(width=1, color="black")),
-        name="6 Runs"
-    ))
+    if "6 Runs" in beehive_options:
+        fig.add_trace(go.Scatter(
+            x=beehive_data[beehive_data['Runs'] == 6]['Analyst Arrival Line'],
+            y=beehive_data[beehive_data['Runs'] == 6]['Analyst Arrival Height'],
+            mode="markers",
+            marker=dict(size=11, color="red",
+                        line=dict(width=1, color="black")),
+            name="6 Runs"
+        ))
 
-# ---------- DISMISSALS ----------
-if "Dismissals" in beehive_options:
-    fig.add_trace(go.Scatter(
-        x=beehive_data[
-            beehive_data['Dismissed Batter'].isin(selected_batters)
-        ]['Analyst Arrival Line'],
-        y=beehive_data[
-            beehive_data['Dismissed Batter'].isin(selected_batters)
-        ]['Analyst Arrival Height'],
-        mode="markers",
-        marker=dict(
-            symbol="x",
-            size=14,
-            color="black",
-            line=dict(width=2)
-        ),
-        name="Dismissal"
-    ))
+    if "Dismissals" in beehive_options:
+        fig.add_trace(go.Scatter(
+            x=beehive_data[
+                beehive_data['Dismissed Batter'].isin(selected_batters)
+            ]['Analyst Arrival Line'],
+            y=beehive_data[
+                beehive_data['Dismissed Batter'].isin(selected_batters)
+            ]['Analyst Arrival Height'],
+            mode="markers",
+            marker=dict(
+                symbol="x",
+                size=14,
+                color="black",
+                line=dict(width=2)
+            ),
+            name="Dismissal"
+        ))
 
     fig.update_layout(
         height=700,
         xaxis=dict(range=[x_min_m, x_max_m], visible=False),
         yaxis=dict(range=[y_min_m, y_max_m], visible=False),
-        legend=dict(
-            orientation="h",
-            y=1,
-            x=0.5,
-            xanchor="center"
-        ),
-        margin=dict(l=0, r=0, t=0, b=0)
     )
 
     fig.update_yaxes(scaleanchor="x")
-
     fig.update_layout(dragmode=False)
 
-    st.plotly_chart(
-    fig,
-    use_container_width=True,
-    key="beehive",
-    config={
-        "scrollZoom": False,
-        "doubleClick": "reset",
-        "displaylogo": False,
-        "modeBarButtonsToRemove": [
-            "zoom2d",
-            "select2d",
-            "lasso2d"
-        ]
-    }
-)
+    apply_responsive_legend(fig)
 
+    st.plotly_chart(
+        fig,
+        use_container_width=True,
+        key="beehive",
+        config={
+            "scrollZoom": False,
+            "doubleClick": "reset",
+            "displaylogo": False,
+            "modeBarButtonsToRemove": [
+                "zoom2d",
+                "select2d",
+                "lasso2d"
+            ]
+        }
+    )
 
 else:
     st.write("No delivery data available.")
