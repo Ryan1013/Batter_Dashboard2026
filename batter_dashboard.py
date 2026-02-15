@@ -21,14 +21,13 @@ st.markdown("""
 /* Mobile only */
 @media (max-width: 768px) {
 
-    /* Target sidebar toggle button */
-    header button {
+    /* Specifically target the sidebar collapse control */
+    div[data-testid="collapsedControl"] > button {
         display: flex !important;
         align-items: center !important;
     }
 
-    /* Add Filters text */
-    header button::after {
+    div[data-testid="collapsedControl"] > button::after {
         content: "  Filters";
         font-weight: 600;
         font-size: 15px;
