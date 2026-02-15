@@ -325,7 +325,17 @@ if len(wagon) > 0:
 
     fig.update_yaxes(scaleanchor="x")
 
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(
+    fig,
+    use_container_width=True,
+    key="wagon_wheel",
+    config={
+        "staticPlot": True,      # ← disables ALL touch interaction
+        "displayModeBar": True,  # keeps toolbar visible
+        "displaylogo": False
+    }
+)
+
 
 else:
     st.write("No scoring shots available.")
@@ -362,7 +372,17 @@ if len(dismissals) > 0:
         margin=dict(l=20, r=150, t=20, b=20)
     )
 
-    st.plotly_chart(fig_pie, width="stretch")
+    st.plotly_chart(
+    fig_pie,
+    use_container_width=True,
+    key="dismissal_pie",
+    config={
+        "staticPlot": True,      # ← disables ALL touch interaction
+        "displayModeBar": True,  # keeps toolbar visible
+        "displaylogo": False
+    }
+)
+
 
 else:
     st.write("No dismissals recorded.")
@@ -423,7 +443,17 @@ if len(caught) > 0:
 
     fig_catch.update_yaxes(scaleanchor="x")
 
-    st.plotly_chart(fig_catch, width="stretch")
+    st.plotly_chart(
+    fig_catch,
+    use_container_width=True,
+    key="catch_map",
+    config={
+        "staticPlot": True,      # ← disables ALL touch interaction
+        "displayModeBar": True,  # keeps toolbar visible
+        "displaylogo": False
+    }
+)
+
 
 else:
     st.write("No caught dismissals.")
@@ -521,7 +551,17 @@ if "Dismissals" in beehive_options:
 
     fig.update_yaxes(scaleanchor="x")
 
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(
+    fig,
+    use_container_width=True,
+    key="beehive",
+    config={
+        "staticPlot": True,      # ← disables ALL touch interaction
+        "displayModeBar": True,  # keeps toolbar visible
+        "displaylogo": False
+    }
+)
+
 
 else:
     st.write("No delivery data available.")
