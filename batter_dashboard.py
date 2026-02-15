@@ -16,32 +16,42 @@ is_mobile = detect_mobile()
 st.set_page_config(layout="wide", initial_sidebar_state="auto")
 
 st.markdown("""
-<style>
-@media (max-width: 768px) {
+<script>
+function addFiltersLabel() {
 
-    /* Hide default sidebar toggle */
-    [data-testid="collapsedControl"] {
-        display: none !important;
-    }
+    // Only apply on mobile
+    if (window.innerWidth > 768) return;
 
-    .mobile-filters-btn {
-        font-weight: 600;
-        font-size: 16px;
-        padding: 10px 16px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
+    // Find the sidebar toggle button (chevron)
+    const toggle = window.parent.document.querySelector(
+        '[data-testid="collapsedControl"]'
+    );
 
+    if (!toggle) return;
+
+    // Prevent duplicate insertion
+    if (toggle.innerText.includes("Filters")) return;
+
+    // Append text next to existing icon
+    toggle.innerHTML = toggle.innerHTML + 
+        '<span style="font-weight:600;font-size:15px;margin-left:6px;">Filters</span>';
 }
-</style>
-""", unsafe_allow_html=True)
 
-st.markdown("""
-<div class="mobile-filters-btn" onclick="window.parent.document.querySelector('[data-testid=\\"collapsedControl\\"]').click()">
-    » Filters
-</div>
+// Because Streamlit renders header asynchronously,
+// keep checking briefly until found
+const observer = new MutationObserver(() => {
+    addFiltersLabel();
+});
+
+observer.observe(window.parent.document.body, {
+    childList: true,
+    subtree: true
+});
+
+// Run once immediately too
+setTimeout(addFiltersLabel, 500);
+
+</script>
 """, unsafe_allow_html=True)
 
 st.title("One-Day Batter Dashboard")
