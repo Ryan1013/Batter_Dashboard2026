@@ -16,35 +16,38 @@ is_mobile = detect_mobile()
 st.set_page_config(layout="wide", initial_sidebar_state="auto")
 
 st.markdown("""
-<script>
-function addFiltersLabel() {
+<style>
 
-    // Only run on mobile width
-    if (window.innerWidth > 768) return;
+/* MOBILE ONLY */
+@media (max-width: 768px) {
 
-    // Get header buttons
-    const header = window.parent.document.querySelector("header");
-    if (!header) return;
+    /* Hide default Streamlit hamburger */
+    [data-testid="collapsedControl"] {
+        display: none !important;
+    }
 
-    const firstButton = header.querySelector("button");
-    if (!firstButton) return;
+    /* Custom mobile header */
+    .mobile-filters-header {
+        font-weight: 600;
+        font-size: 16px;
+        padding: 10px 16px;
+        cursor: pointer;
+    }
 
-    // Avoid duplicate label
-    if (firstButton.querySelector(".filters-label")) return;
-
-    // Create label
-    const span = document.createElement("span");
-    span.innerText = " Filters";
-    span.className = "filters-label";
-    span.style.fontWeight = "600";
-    span.style.fontSize = "15px";
-    span.style.marginLeft = "6px";
-
-    firstButton.appendChild(span);
 }
 
-// Run once after load
-setTimeout(addFiltersLabel, 500);
+</style>
+""", unsafe_allow_html=True)
+
+# Detect mobile width using query param fallback
+st.markdown("""
+<script>
+if (window.innerWidth <= 768) {
+    const header = document.createElement("div");
+    header.className = "mobile-filters-header";
+    header.innerHTML = "☰ Filters";
+    document.body.prepend(header);
+}
 </script>
 """, unsafe_allow_html=True)
 
