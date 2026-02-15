@@ -16,46 +16,32 @@ is_mobile = detect_mobile()
 st.set_page_config(layout="wide", initial_sidebar_state="auto")
 
 st.markdown("""
-<script>
-function bindFiltersToChevron() {
+<style>
+@media (max-width: 768px) {
 
-    // Only apply on mobile
-    if (window.innerWidth > 768) return;
+    /* Hide default sidebar toggle */
+    [data-testid="collapsedControl"] {
+        display: none !important;
+    }
 
-    // Find sidebar toggle (chevron icon)
-    const toggle = window.parent.document.querySelector(
-        '[data-testid="collapsedControl"]'
-    );
+    .mobile-filters-btn {
+        font-weight: 600;
+        font-size: 16px;
+        padding: 10px 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
 
-    if (!toggle) return;
-
-    // Prevent duplicates
-    if (toggle.querySelector(".filters-label")) return;
-
-    // Make flex so text aligns nicely
-    toggle.style.display = "flex";
-    toggle.style.alignItems = "center";
-
-    // Create label
-    const label = document.createElement("span");
-    label.className = "filters-label";
-    label.innerText = " Filters";
-    label.style.fontWeight = "600";
-    label.style.fontSize = "15px";
-    label.style.marginLeft = "6px";
-
-    toggle.appendChild(label);
 }
+</style>
+""", unsafe_allow_html=True)
 
-// Keep checking because Streamlit re-renders header
-const interval = setInterval(() => {
-    bindFiltersToChevron();
-}, 300);
-
-// Stop after 5 seconds
-setTimeout(() => clearInterval(interval), 5000);
-
-</script>
+st.markdown("""
+<div class="mobile-filters-btn" onclick="window.parent.document.querySelector('[data-testid=\\"collapsedControl\\"]').click()">
+    » Filters
+</div>
 """, unsafe_allow_html=True)
 
 st.title("One-Day Batter Dashboard")
