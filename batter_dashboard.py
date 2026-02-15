@@ -17,38 +17,42 @@ st.set_page_config(layout="wide", initial_sidebar_state="auto")
 
 st.markdown("""
 <script>
-function hardBindFiltersLabel() {
+function bindFiltersToChevron() {
 
-    // Only apply on mobile width
+    // Only apply on mobile
     if (window.innerWidth > 768) return;
 
-    // Find the sidebar toggle button (hamburger)
-    const toggleButton = window.parent.document.querySelector(
-        '[data-testid="collapsedControl"] button'
+    // Find sidebar toggle (chevron icon)
+    const toggle = window.parent.document.querySelector(
+        '[data-testid="collapsedControl"]'
     );
 
-    if (!toggleButton) return;
+    if (!toggle) return;
 
-    // If already added, do nothing
-    if (toggleButton.querySelector(".hard-filters-label")) return;
+    // Prevent duplicates
+    if (toggle.querySelector(".filters-label")) return;
+
+    // Make flex so text aligns nicely
+    toggle.style.display = "flex";
+    toggle.style.alignItems = "center";
 
     // Create label
     const label = document.createElement("span");
-    label.className = "hard-filters-label";
+    label.className = "filters-label";
     label.innerText = " Filters";
     label.style.fontWeight = "600";
     label.style.fontSize = "15px";
     label.style.marginLeft = "6px";
 
-    toggleButton.appendChild(label);
+    toggle.appendChild(label);
 }
 
-// Run repeatedly in case Streamlit rerenders header
+// Keep checking because Streamlit re-renders header
 const interval = setInterval(() => {
-    hardBindFiltersLabel();
+    bindFiltersToChevron();
 }, 300);
 
-// Stop after 5 seconds (cleaner)
+// Stop after 5 seconds
 setTimeout(() => clearInterval(interval), 5000);
 
 </script>
