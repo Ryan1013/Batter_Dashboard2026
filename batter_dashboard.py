@@ -15,31 +15,23 @@ is_mobile = detect_mobile()
 
 st.set_page_config(layout="wide", initial_sidebar_state="auto")
 
-st.markdown("""
-<style>
-
-/* MOBILE ONLY */
-@media (max-width: 768px) {
-
+if is_mobile:
+    st.markdown("""
+    <style>
     .mobile-filters-label {
         position: fixed;
         top: 10px;
-        left: 45px;  /* Leaves space for chevron */
+        left: 50px;   /* leaves space for chevron */
         font-weight: 600;
         font-size: 16px;
         z-index: 9999;
     }
+    </style>
 
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="mobile-filters-label">
-    Filters
-</div>
-""", unsafe_allow_html=True)
+    <div class="mobile-filters-label">
+        Filters
+    </div>
+    """, unsafe_allow_html=True)
 
 st.title("One-Day Batter Dashboard")
 
