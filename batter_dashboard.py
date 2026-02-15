@@ -19,12 +19,10 @@ if is_mobile:
     st.markdown("""
     <style>
     .mobile-filters-label {
-        position: fixed;
-        top: 10px;
-        left: 50px;   /* leaves space for chevron */
+        margin-top: -40px;   /* pulls it up under header */
+        margin-left: 52px;   /* aligns after chevron */
         font-weight: 600;
         font-size: 16px;
-        z-index: 9999;
     }
     </style>
 
