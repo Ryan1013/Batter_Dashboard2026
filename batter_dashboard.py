@@ -13,29 +13,39 @@ def detect_mobile():
 
 is_mobile = detect_mobile()
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", initial_sidebar_state="auto")
 
 st.markdown("""
-<style>
+<script>
+function addFiltersLabel() {
 
-/* Mobile only */
-@media (max-width: 768px) {
+    // Only run on mobile width
+    if (window.innerWidth > 768) return;
 
-    /* Target ONLY first header button (sidebar toggle) */
-    header button:first-of-type {
-        display: flex !important;
-        align-items: center !important;
-    }
+    // Get header buttons
+    const header = window.parent.document.querySelector("header");
+    if (!header) return;
 
-    header button:first-of-type::after {
-        content: "  Filters";
-        font-weight: 600;
-        font-size: 15px;
-    }
+    const firstButton = header.querySelector("button");
+    if (!firstButton) return;
 
+    // Avoid duplicate label
+    if (firstButton.querySelector(".filters-label")) return;
+
+    // Create label
+    const span = document.createElement("span");
+    span.innerText = " Filters";
+    span.className = "filters-label";
+    span.style.fontWeight = "600";
+    span.style.fontSize = "15px";
+    span.style.marginLeft = "6px";
+
+    firstButton.appendChild(span);
 }
 
-</style>
+// Run once after load
+setTimeout(addFiltersLabel, 500);
+</script>
 """, unsafe_allow_html=True)
 
 st.title("One-Day Batter Dashboard")
