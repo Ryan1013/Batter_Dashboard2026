@@ -16,38 +16,41 @@ is_mobile = detect_mobile()
 st.set_page_config(layout="wide", initial_sidebar_state="auto")
 
 st.markdown("""
-<style>
-
-/* MOBILE ONLY */
-@media (max-width: 768px) {
-
-    /* Hide default Streamlit hamburger */
-    [data-testid="collapsedControl"] {
-        display: none !important;
-    }
-
-    /* Custom mobile header */
-    .mobile-filters-header {
-        font-weight: 600;
-        font-size: 16px;
-        padding: 10px 16px;
-        cursor: pointer;
-    }
-
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-# Detect mobile width using query param fallback
-st.markdown("""
 <script>
-if (window.innerWidth <= 768) {
-    const header = document.createElement("div");
-    header.className = "mobile-filters-header";
-    header.innerHTML = "☰ Filters";
-    document.body.prepend(header);
+function hardBindFiltersLabel() {
+
+    // Only apply on mobile width
+    if (window.innerWidth > 768) return;
+
+    // Find the sidebar toggle button (hamburger)
+    const toggleButton = window.parent.document.querySelector(
+        '[data-testid="collapsedControl"] button'
+    );
+
+    if (!toggleButton) return;
+
+    // If already added, do nothing
+    if (toggleButton.querySelector(".hard-filters-label")) return;
+
+    // Create label
+    const label = document.createElement("span");
+    label.className = "hard-filters-label";
+    label.innerText = " Filters";
+    label.style.fontWeight = "600";
+    label.style.fontSize = "15px";
+    label.style.marginLeft = "6px";
+
+    toggleButton.appendChild(label);
 }
+
+// Run repeatedly in case Streamlit rerenders header
+const interval = setInterval(() => {
+    hardBindFiltersLabel();
+}, 300);
+
+// Stop after 5 seconds (cleaner)
+setTimeout(() => clearInterval(interval), 5000);
+
 </script>
 """, unsafe_allow_html=True)
 
