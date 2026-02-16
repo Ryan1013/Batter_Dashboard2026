@@ -19,7 +19,7 @@ if is_mobile:
     st.markdown("""
     <style>
     .mobile-filters-label {
-        margin-top: -80px;   /* pulls it up under header */
+        margin-top: -60px;   /* pulls it up under header */
         margin-left: 12px;   /* aligns after chevron */
         font-weight: 600;
         font-size: 16px;
