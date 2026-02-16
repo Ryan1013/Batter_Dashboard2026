@@ -674,7 +674,7 @@ else:
 
 # ---------------- VIDEO SECTION ---------------- #
 
-st.subheader("Videos (Pace + Spin)")
+st.subheader("Videos (Filters not applicable to this section)")
 
 if len(selected_batters) == 1:
     batter_name = selected_batters[0]
