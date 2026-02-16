@@ -62,6 +62,16 @@ def apply_responsive_legend(fig):
 def load_data():
     df = pd.read_csv("MB50_25.csv", low_memory=False)
 
+    # Ensure Date is parsed properly
+    df['Date'] = pd.to_datetime(
+        df['Date'],
+        format='%d/%m/%Y',
+        errors='coerce'
+    )
+
+    # Create Year column safely
+    df['Year'] = df['Date'].dt.year
+
     bowling_type_mapping = {
         'LLB': 'Spin', 'LOB': 'Spin', 'RLB': 'Spin', 'ROB': 'Spin',
         'LF': 'Pace', 'LFM': 'Pace', 'LM': 'Pace',
@@ -213,6 +223,26 @@ beehive_options = st.sidebar.multiselect(
     default=["4 Runs", "6 Runs", "Dismissals"]
 )
 
+# ---------------- YEAR FILTER ---------------- #
+
+years = sorted(data['Year'].dropna().unique())
+
+selected_years = st.sidebar.multiselect(
+    "Year",
+    years,
+    default=years
+)
+
+# ---------------- VENUE FILTER ---------------- #
+
+venues = sorted(data['Venue'].dropna().unique())
+
+selected_venues = st.sidebar.multiselect(
+    "Venue",
+    venues,
+    default=venues
+)
+
 # ---------------- APPLY FILTERS ---------------- #
 
 filtered = data.copy()
@@ -228,6 +258,14 @@ if selected_batters:
 # Filter by bowling type
 if selected_bowling:
     filtered = filtered[filtered['Bowling Type'].isin(selected_bowling)]
+
+# Filter by Year
+if selected_years:
+    filtered = filtered[filtered['Year'].isin(selected_years)]
+
+# Filter by Venue
+if selected_venues:
+    filtered = filtered[filtered['Venue'].isin(selected_venues)]
 
 # ---------------- KPI SECTION ---------------- #
 
