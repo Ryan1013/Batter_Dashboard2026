@@ -445,6 +445,167 @@ else:
     else:
         st.write("No first innings data available for selected team.")
 
+# ---------------- VENUE STATS ---------------- #
+
+st.subheader("Venue Stats (1st Innings Phase Averages)")
+
+if len(selected_venues) != 1:
+
+    st.info("Select exactly one Venue to view phase averages.")
+
+else:
+
+    import math
+
+    venue_name = selected_venues[0]
+
+    venue_phase_data = data[
+        (data['Venue'] == venue_name) &
+        (data['Innings'] == 1)
+    ].copy()
+
+    if len(venue_phase_data) > 0:
+
+        if 'Extra Runs' not in venue_phase_data.columns:
+            venue_phase_data['Extra Runs'] = 0
+
+        venue_phase_data['Total Runs'] = (
+            venue_phase_data['Runs'].fillna(0) +
+            venue_phase_data['Extra Runs'].fillna(0)
+        )
+
+        phases = [
+            'Powerplay (1-10)',
+            'Upper Middle (11-25)',
+            'Lower Middle (26-40)',
+            'Death (41-50)'
+        ]
+
+        phase_data_store = []
+
+        # ---------- RAW AVERAGES ---------- #
+
+        for phase in phases:
+
+            phase_df = venue_phase_data[
+                venue_phase_data['Phase'] == phase
+            ]
+
+            if len(phase_df) == 0:
+                continue
+
+            grouped = phase_df.groupby(['Match', 'Date', 'Innings'])
+
+            match_totals = []
+            match_wickets = []
+
+            for _, group in grouped:
+
+                total_runs = group['Total Runs'].sum()
+
+                dismissals = group[
+                    group['Dismissed Batter'].notna() &
+                    (group['Dismissed Batter'].astype(str).str.strip() != "")
+                ].shape[0]
+
+                match_totals.append(total_runs)
+                match_wickets.append(dismissals)
+
+            raw_avg_runs = sum(match_totals) / len(match_totals)
+            raw_avg_wkts = sum(match_wickets) / len(match_wickets)
+
+            phase_data_store.append({
+                "phase": phase,
+                "raw_runs": raw_avg_runs,
+                "raw_wkts": raw_avg_wkts
+            })
+
+        # ---------- COUNT .5 OCCURRENCES ---------- #
+
+        half_phases = [
+            p for p in phase_data_store
+            if p["raw_wkts"] % 1 == 0.5
+        ]
+
+        half_count = len(half_phases)
+        half_seen = 0
+
+        # ---------- ROUNDING PASS ---------- #
+
+        for p in phase_data_store:
+
+            raw_avg_runs = p["raw_runs"]
+            raw_avg_wkts = p["raw_wkts"]
+
+            p["rounded_runs"] = round(raw_avg_runs)
+
+            if raw_avg_wkts % 1 == 0.5:
+
+                half_seen += 1
+
+                if half_count == 4:
+                    if half_seen <= 2:
+                        avg_wkts = math.floor(raw_avg_wkts)
+                    else:
+                        avg_wkts = math.ceil(raw_avg_wkts)
+                elif half_count == 2:
+                    if half_seen == 1:
+                        avg_wkts = math.floor(raw_avg_wkts)
+                    else:
+                        avg_wkts = math.ceil(raw_avg_wkts)
+                else:
+                    avg_wkts = round(raw_avg_wkts)
+
+            else:
+                avg_wkts = round(raw_avg_wkts)
+
+            p["rounded_wkts"] = avg_wkts
+            p["rounding_error"] = avg_wkts - raw_avg_wkts
+
+        # ---------- ENFORCE TOTAL ≤ 10 ---------- #
+
+        total_wkts_sum = sum(p["rounded_wkts"] for p in phase_data_store)
+
+        while total_wkts_sum > 10:
+
+            candidates = [
+                p for p in phase_data_store
+                if p["rounded_wkts"] > 0
+            ]
+
+            if not candidates:
+                break
+
+            worst_phase = max(
+                candidates,
+                key=lambda x: x["rounding_error"]
+            )
+
+            worst_phase["rounded_wkts"] -= 1
+            worst_phase["rounding_error"] -= 1
+            total_wkts_sum -= 1
+
+        # ---------- TOTAL RUNS ---------- #
+
+        total_runs_sum = sum(p["rounded_runs"] for p in phase_data_store)
+
+        # ---------- DISPLAY ---------- #
+
+        phase_results = {}
+
+        for p in phase_data_store:
+            phase_results[p["phase"]] = f"{p['rounded_runs']}-{p['rounded_wkts']}"
+
+        phase_results["Total"] = f"{total_runs_sum}-{total_wkts_sum}"
+
+        cols = st.columns(len(phase_results))
+
+        for i, (phase, value) in enumerate(phase_results.items()):
+            cols[i].metric(phase, value)
+
+    else:
+        st.write("No first innings data available for selected venue.")
+
 # ---------------- KPI SECTION ---------------- #
 
 st.subheader("Batter Stats")
@@ -874,164 +1035,3 @@ if len(selected_batters) == 1:
 
 else:
     st.write("Select a single batter to view video highlights.")
-
-# ---------------- VENUE STATS ---------------- #
-
-st.subheader("Venue Stats (1st Innings Phase Averages)")
-
-if len(selected_venues) != 1:
-
-    st.info("Select exactly one Venue to view phase averages.")
-
-else:
-
-    import math
-
-    venue_name = selected_venues[0]
-
-    venue_phase_data = data[
-        (data['Venue'] == venue_name) &
-        (data['Innings'] == 1)
-    ].copy()
-
-    if len(venue_phase_data) > 0:
-
-        if 'Extra Runs' not in venue_phase_data.columns:
-            venue_phase_data['Extra Runs'] = 0
-
-        venue_phase_data['Total Runs'] = (
-            venue_phase_data['Runs'].fillna(0) +
-            venue_phase_data['Extra Runs'].fillna(0)
-        )
-
-        phases = [
-            'Powerplay (1-10)',
-            'Upper Middle (11-25)',
-            'Lower Middle (26-40)',
-            'Death (41-50)'
-        ]
-
-        phase_data_store = []
-
-        # ---------- RAW AVERAGES ---------- #
-
-        for phase in phases:
-
-            phase_df = venue_phase_data[
-                venue_phase_data['Phase'] == phase
-            ]
-
-            if len(phase_df) == 0:
-                continue
-
-            grouped = phase_df.groupby(['Match', 'Date', 'Innings'])
-
-            match_totals = []
-            match_wickets = []
-
-            for _, group in grouped:
-
-                total_runs = group['Total Runs'].sum()
-
-                dismissals = group[
-                    group['Dismissed Batter'].notna() &
-                    (group['Dismissed Batter'].astype(str).str.strip() != "")
-                ].shape[0]
-
-                match_totals.append(total_runs)
-                match_wickets.append(dismissals)
-
-            raw_avg_runs = sum(match_totals) / len(match_totals)
-            raw_avg_wkts = sum(match_wickets) / len(match_wickets)
-
-            phase_data_store.append({
-                "phase": phase,
-                "raw_runs": raw_avg_runs,
-                "raw_wkts": raw_avg_wkts
-            })
-
-        # ---------- COUNT .5 OCCURRENCES ---------- #
-
-        half_phases = [
-            p for p in phase_data_store
-            if p["raw_wkts"] % 1 == 0.5
-        ]
-
-        half_count = len(half_phases)
-        half_seen = 0
-
-        # ---------- ROUNDING PASS ---------- #
-
-        for p in phase_data_store:
-
-            raw_avg_runs = p["raw_runs"]
-            raw_avg_wkts = p["raw_wkts"]
-
-            p["rounded_runs"] = round(raw_avg_runs)
-
-            if raw_avg_wkts % 1 == 0.5:
-
-                half_seen += 1
-
-                if half_count == 4:
-                    if half_seen <= 2:
-                        avg_wkts = math.floor(raw_avg_wkts)
-                    else:
-                        avg_wkts = math.ceil(raw_avg_wkts)
-                elif half_count == 2:
-                    if half_seen == 1:
-                        avg_wkts = math.floor(raw_avg_wkts)
-                    else:
-                        avg_wkts = math.ceil(raw_avg_wkts)
-                else:
-                    avg_wkts = round(raw_avg_wkts)
-
-            else:
-                avg_wkts = round(raw_avg_wkts)
-
-            p["rounded_wkts"] = avg_wkts
-            p["rounding_error"] = avg_wkts - raw_avg_wkts
-
-        # ---------- ENFORCE TOTAL ≤ 10 ---------- #
-
-        total_wkts_sum = sum(p["rounded_wkts"] for p in phase_data_store)
-
-        while total_wkts_sum > 10:
-
-            candidates = [
-                p for p in phase_data_store
-                if p["rounded_wkts"] > 0
-            ]
-
-            if not candidates:
-                break
-
-            worst_phase = max(
-                candidates,
-                key=lambda x: x["rounding_error"]
-            )
-
-            worst_phase["rounded_wkts"] -= 1
-            worst_phase["rounding_error"] -= 1
-            total_wkts_sum -= 1
-
-        # ---------- TOTAL RUNS ---------- #
-
-        total_runs_sum = sum(p["rounded_runs"] for p in phase_data_store)
-
-        # ---------- DISPLAY ---------- #
-
-        phase_results = {}
-
-        for p in phase_data_store:
-            phase_results[p["phase"]] = f"{p['rounded_runs']}-{p['rounded_wkts']}"
-
-        phase_results["Total"] = f"{total_runs_sum}-{total_wkts_sum}"
-
-        cols = st.columns(len(phase_results))
-
-        for i, (phase, value) in enumerate(phase_results.items()):
-            cols[i].metric(phase, value)
-
-    else:
-        st.write("No first innings data available for selected venue.")
