@@ -283,10 +283,10 @@ if selected_venues:
 
 # ---------------- TEAM STATS ---------------- #
 
-st.subheader("Team Stats (1st Innings Phase Averages)")
+st.subheader("Team Stats (1st Innings Phase Averages Irrespective of Venue)")
 
 if len(selected_teams) != 1:
-    
+
     st.info("Select exactly one Batting Team to view phase averages.")
 
 else:
@@ -880,7 +880,7 @@ else:
 st.subheader("Venue Stats (1st Innings Phase Averages)")
 
 if len(selected_venues) != 1:
-    
+
     st.info("Select exactly one Venue to view phase averages.")
 
 else:
