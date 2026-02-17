@@ -440,8 +440,7 @@ else:
         cols = st.columns(len(phase_results))
 
         for i, (phase, value) in enumerate(phase_results.items()):
-            short_phase = phase.split(" (")[0]
-            cols[i].metric(short_phase, value)
+            cols[i].metric(phase, value)
 
     else:
         st.write("No first innings data available for selected team.")
@@ -1032,8 +1031,7 @@ else:
         cols = st.columns(len(phase_results))
 
         for i, (phase, value) in enumerate(phase_results.items()):
-            short_phase = phase.split(" (")[0]
-            cols[i].metric(short_phase, value)
+            cols[i].metric(phase, value)
 
     else:
         st.write("No first innings data available for selected venue.")
