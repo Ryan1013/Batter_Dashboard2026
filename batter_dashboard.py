@@ -697,15 +697,16 @@ if len(wagon) > 0:
 
     try:
         img = Image.open("wagon_background.png")
+        field_scale = 1
         fig.add_layout_image(
             dict(
                 source=img,
                 xref="x",
                 yref="y",
-                x=-180,
-                y=180,
-                sizex=360,
-                sizey=360,
+                x=-180 * field_scale,
+                y=180 * field_scale,
+                sizex=360 * field_scale,
+                sizey=360 * field_scale,
                 sizing="stretch",
                 layer="below"
             )
@@ -720,9 +721,11 @@ if len(wagon) > 0:
         run_val = row['Runs']
         color = run_colors.get(run_val, "grey")
 
+        origin_offset = 25  # positive = move upwards
+        
         fig.add_trace(go.Scatter(
             x=[0, x],
-            y=[0, y],
+            y=[origin_offset, y + origin_offset],
             mode="lines",
             line=dict(color=color, width=4),
             showlegend=False
