@@ -55,7 +55,6 @@ def apply_responsive_legend(fig):
             margin=dict(l=0, r=0, t=40, b=20)
         )
 
-
 # ---------------- LOAD DATA ---------------- #
 
 @st.cache_data
@@ -198,22 +197,43 @@ if selected_teams:
 else:
     team_filtered_data = data.copy()
 
-team_batters = sorted(team_filtered_data['Batter'].dropna().unique())
+# Create display format: "Name (RHB)"
+team_filtered_data['Batter Display'] = (
+    team_filtered_data['Batter'].astype(str) +
+    " (" +
+    team_filtered_data['Batting Hand'].astype(str) +
+    ")"
+)
 
-# Default batter logic:
+# Remove duplicates
+batter_display_df = team_filtered_data[['Batter', 'Batter Display']].drop_duplicates()
+
+team_batters_display = sorted(batter_display_df['Batter Display'].unique())
+
+# Default selection logic
 if default_team in selected_teams:
-    default_batters = sorted(
-        data[data['Batting Team'] == default_team]['Batter'].dropna().unique()
+    default_df = data[data['Batting Team'] == default_team].copy()
+    default_df['Batter Display'] = (
+        default_df['Batter'].astype(str) +
+        " (" +
+        default_df['Batting Hand'].astype(str) +
+        ")"
     )
-    default_selection = [default_batters[0]] if len(default_batters) > 0 else []
+    default_selection = [default_df['Batter Display'].iloc[0]] if len(default_df) > 0 else []
 else:
-    default_selection = [team_batters[0]] if len(team_batters) > 0 else []
+    default_selection = [team_batters_display[0]] if len(team_batters_display) > 0 else []
 
-selected_batters = st.sidebar.multiselect(
+selected_batters_display = st.sidebar.multiselect(
     "Batter",
-    team_batters,
+    team_batters_display,
     default=default_selection
 )
+
+# Convert display back to actual batter names
+selected_batters = [
+    name.split(" (")[0]
+    for name in selected_batters_display
+]
 
 selected_bowling = st.sidebar.multiselect(
     "Bowling Type",
