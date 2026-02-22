@@ -668,6 +668,147 @@ col5.metric("Strike Rate", strike_rate)
 col6.metric("Scoring Shot %", scoring_shot_percentage)
 col7.metric("Boundary Runs %", boundary_percentage)
 
+# ---------------- FEET MOVEMENT ---------------- #
+
+st.subheader("Feet Movement (% of Runs)")
+
+if len(filtered) > 0:
+
+    feet_df = filtered.copy()
+
+    # Only consider scoring shots
+    feet_df = feet_df[feet_df['Runs'] > 0].copy()
+
+    # Clean and prioritise Feet values
+    def clean_feet(value):
+
+        value = str(value).strip().lower()
+
+        # PRIORITY 1
+        if "down the track" in value:
+            return "Down the Track"
+
+        # PRIORITY 2
+        if "backs away" in value:
+            return "Backs Away"
+
+        # Exact recognised categories
+        if value == "no movement":
+            return "No Movement"
+
+        if value == "front foot":
+            return "Front Foot"
+
+        if value == "back foot":
+            return "Back Foot"
+
+        # Everything else
+        return "Other"
+
+    feet_df['Feet Category'] = feet_df['Feet'].apply(clean_feet)
+
+    # Aggregate runs
+    runs_by_feet = feet_df.groupby('Feet Category')['Runs'].sum()
+
+    total_runs_feet = runs_by_feet.sum()
+
+    categories = [
+        "No Movement",
+        "Front Foot",
+        "Back Foot",
+        "Down the Track",
+        "Backs Away",
+        "Other"
+    ]
+
+    if total_runs_feet > 0:
+
+        cols = st.columns(len(categories))
+
+        for i, cat in enumerate(categories):
+
+            run_value = runs_by_feet.get(cat, 0)
+            percentage = round((run_value / total_runs_feet) * 100, 1)
+
+            cols[i].metric(cat, f"{percentage}%")
+
+    else:
+        st.write("No scoring data available.")
+
+else:
+    st.write("No data available.")
+
+# ---------------- FANCY SHOT ---------------- #
+
+st.subheader("Unorthodox Shots")
+
+if len(filtered) > 0:
+
+    shot_df = filtered.copy()
+
+    # Only scoring shots
+    shot_df = shot_df[shot_df['Runs'] > 0].copy()
+
+    shot_df['Shot'] = shot_df['Shot'].astype(str).str.strip().str.lower()
+
+    def classify_shot(value):
+
+        # Priority order matters
+        if "reverse sweep" in value:
+            return "Reverse Sweep"
+
+        if "slog sweep" in value:
+            return "Slog Sweep"
+
+        if "scoop" in value:
+            return "Scoop"
+
+        # Plain sweep (but not slog/reverse which are already captured)
+        if "sweep" in value:
+            return "Sweep"
+
+        if "hook" in value:
+            return "Hook"
+
+        return None
+
+    shot_df['Fancy Shot Category'] = shot_df['Shot'].apply(classify_shot)
+
+    fancy_runs = shot_df.dropna(subset=['Fancy Shot Category']) \
+                        .groupby('Fancy Shot Category')['Runs'] \
+                        .sum()
+
+    total_runs = shot_df['Runs'].sum()
+
+    categories = [
+        "Scoop",
+        "Sweep",
+        "Slog Sweep",
+        "Reverse Sweep",
+        "Hook"
+    ]
+
+    cols = st.columns(len(categories))
+
+    for i, shot in enumerate(categories):
+
+        run_value = fancy_runs.get(shot, 0)
+
+        if total_runs > 0:
+            percentage = round((run_value / total_runs) * 100, 1)
+        else:
+            percentage = 0
+
+        if percentage > 2:
+            display_text = f"✅"
+        else:
+            display_text = f"❌"
+
+        cols[i].metric(shot, f"{display_text}")
+
+else:
+    st.write("No data available.")
+
 # ---------------- WAGON WHEEL ---------------- #
 
 st.subheader("Wagon Wheel")
@@ -722,7 +863,7 @@ if len(wagon) > 0:
         color = run_colors.get(run_val, "grey")
 
         origin_offset = 25  # positive = move upwards
-        
+
         fig.add_trace(go.Scatter(
             x=[0, x],
             y=[origin_offset, y + origin_offset],
