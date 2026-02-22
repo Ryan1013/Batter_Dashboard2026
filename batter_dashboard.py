@@ -208,20 +208,13 @@ team_filtered_data['Batter Display'] = (
 # Remove duplicates
 batter_display_df = team_filtered_data[['Batter', 'Batter Display']].drop_duplicates()
 
-team_batters_display = sorted(batter_display_df['Batter Display'].unique())
+# Sort alphabetically by actual Batter name
+batter_display_df = batter_display_df.sort_values('Batter')
 
-# Default selection logic
-if default_team in selected_teams:
-    default_df = data[data['Batting Team'] == default_team].copy()
-    default_df['Batter Display'] = (
-        default_df['Batter'].astype(str) +
-        " (" +
-        default_df['Batting Hand'].astype(str) +
-        ")"
-    )
-    default_selection = [default_df['Batter Display'].iloc[0]] if len(default_df) > 0 else []
-else:
-    default_selection = [team_batters_display[0]] if len(team_batters_display) > 0 else []
+team_batters_display = batter_display_df['Batter Display'].tolist()
+
+# Default = first alphabetically
+default_selection = [team_batters_display[0]] if team_batters_display else []
 
 selected_batters_display = st.sidebar.multiselect(
     "Batter",
@@ -229,7 +222,7 @@ selected_batters_display = st.sidebar.multiselect(
     default=default_selection
 )
 
-# Convert display back to actual batter names
+# Convert display back to actual Batter names
 selected_batters = [
     name.split(" (")[0]
     for name in selected_batters_display
