@@ -760,7 +760,7 @@ else:
 
 # ---------------- FANCY SHOT ---------------- #
 
-st.subheader("Unorthodox Shots")
+st.subheader("Shots")
 
 if len(filtered) > 0:
 
