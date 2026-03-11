@@ -171,6 +171,49 @@ video_links = {
     "SM Horley": {
         "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17.mp4",
         "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260212_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16.mp4"
+    },
+    "LA Bailey": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/gloucestershire-women-v-kent-women---25-aug-2025/VPM_260311_GLOSW_KENTW_PLAYLIST_1080.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1.mp4"
+    },
+    "OJ Barnes": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3.mp4"
+    },
+    "EG Barnfather": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5.mp4"
+    },
+    "MS Belt": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6.mp4"
+    },
+    "Z Bilal": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9.mp4"
+    },
+    "JL Bird": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/sussex-sharks-women-v-kent-women---15-may-2025/VPM_260311_SUSW_KENTW_PLAYLIST_1080.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/sussex-sharks-women-v-kent-women---15-may-2025/VPM_260311_SUSW_KENTW_PLAYLIST_1080_1.mp4"
+    },
+    "MC Callaghan": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10.mp4"
+    },
+    "EL Darlington": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13.mp4"
+    },
+    "MW Davis": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/kent-women-v-leicestershire-women---3-may-2025/VPM_260311_KENTW_LEIW_PLAYLIST_1080.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14.mp4"
+    },
+    "AG Gordon": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15.mp4"
+    },
+    "SR Gorham": {
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17.mp4"
     }
 }
 
