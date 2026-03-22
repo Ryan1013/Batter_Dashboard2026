@@ -214,6 +214,41 @@ video_links = {
     },
     "SR Gorham": {
         "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260311_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17.mp4"
+    },
+    "AF Grant": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/kent-women-v-yorkshire-women---30-aug-2025/VPM_260322_KENTW_YORW_PLAYLIST_1080.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/kent-women-v-northamptonshire-steelbacks-women---9-aug-2025/VPM_260322_KENTW_NORW_PLAYLIST_1080.mp4"
+    },
+    "JA Hobson": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/kent-women-v-yorkshire-women---30-aug-2025/VPM_260322_KENTW_YORW_PLAYLIST_1080_1.mp4",
+    },
+    "IG James": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080.mp4"
+    },
+    "GRK Jeer": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2.mp4"
+    },
+    "GA Poole": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3_4.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/sussex-sharks-women-v-kent-women---15-may-2025/VPM_260322_SUSW_KENTW_PLAYLIST_1080.mp4"
+    },
+    "SA Singer": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3_4_5_6.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3_4_5.mp4"
+    },
+    "JEM Spence": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/kent-women-v-glamorgan-women---16-aug-2025/VPM_260322_KENTW_GLAMW_PLAYLIST_1080.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2025/metro-bank-one-day-cup---women-league-2/kent-women-v-glamorgan-women---16-aug-2025/VPM_260322_KENTW_GLAMW_PLAYLIST_1080_1.mp4"
+    },
+    "CG Streets": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3_4_5_6_7_8.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3_4_5_6_7.mp4"
+    },
+    "ML Sturge": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3_4_5_6_7_8_9.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10.mp4"
     }
 }
 
@@ -225,7 +260,7 @@ st.sidebar.header("Filters")
 
 teams = sorted(data['Batting Team'].dropna().unique())
 
-default_team = "Middlesex Women" if "Middlesex Women" in teams else teams[0]
+default_team = "Kent Women" if "Kent Women" in teams else teams[0]
 
 selected_teams = st.sidebar.multiselect(
     "Batting Team",
