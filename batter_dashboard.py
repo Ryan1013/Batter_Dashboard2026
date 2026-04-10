@@ -249,6 +249,10 @@ video_links = {
     "ML Sturge": {
         "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3_4_5_6_7_8_9.mp4",
         "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260322_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10.mp4"
+    },
+    "R King": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260410_PLAYLIST_1080.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260410_PLAYLIST_1080_1_2.mp4"
     }
 }
 
