@@ -376,6 +376,11 @@ if selected_years:
 if selected_venues:
     filtered = filtered[filtered['Venue'].isin(selected_venues)]
 
+year_filtered_df = data.copy()
+
+if selected_years:
+    year_filtered_df = year_filtered_df[year_filtered_df['Year'].isin(selected_years)]
+
 # ---------------- TEAM STATS ---------------- #
 
 st.subheader("Team Stats (1st Innings Phase Averages Irrespective of Venue)")
@@ -390,10 +395,10 @@ else:
 
     team_name = selected_teams[0]
 
-    team_phase_data = data[
-        (data['Batting Team'] == team_name) &
-        (data['Innings'] == 1)
-    ].copy()
+    team_phase_data = year_filtered_df[
+    (year_filtered_df['Batting Team'] == team_name) &
+    (year_filtered_df['Innings'] == 1)
+].copy()
 
     if len(team_phase_data) > 0:
 
@@ -554,10 +559,10 @@ else:
 
     venue_name = selected_venues[0]
 
-    venue_phase_data = data[
-        (data['Venue'] == venue_name) &
-        (data['Innings'] == 1)
-    ].copy()
+    venue_phase_data = year_filtered_df[
+    (year_filtered_df['Venue'] == venue_name) &
+    (year_filtered_df['Innings'] == 1)
+].copy()
 
     if len(venue_phase_data) > 0:
 
@@ -844,7 +849,7 @@ if len(filtered) > 0:
     # Only scoring shots
     shot_df = shot_df[shot_df['Runs'] > 0].copy()
 
-    # ✅ Drop NaN shots FIRST (key fix)
+    # Drop NaN shots
     shot_df = shot_df.dropna(subset=['Shot']).copy()
 
     shot_df['Shot'] = shot_df['Shot'].astype(str).str.strip().str.lower()
