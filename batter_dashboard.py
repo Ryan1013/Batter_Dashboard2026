@@ -844,6 +844,9 @@ if len(filtered) > 0:
     # Only scoring shots
     shot_df = shot_df[shot_df['Runs'] > 0].copy()
 
+    # ✅ Drop NaN shots FIRST (key fix)
+    shot_df = shot_df.dropna(subset=['Shot']).copy()
+
     shot_df['Shot'] = shot_df['Shot'].astype(str).str.strip().str.lower()
 
     def classify_shot(value):
