@@ -59,7 +59,7 @@ def apply_responsive_legend(fig):
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("MB50_25.csv", low_memory=False)
+    df = pd.read_csv("MB50_T2.csv", low_memory=False)
 
     # Ensure Date is parsed properly
     df['Date'] = pd.to_datetime(
