@@ -382,7 +382,6 @@ if selected_years:
     year_filtered_df = year_filtered_df[year_filtered_df['Year'].isin(selected_years)]
 
 # ---------------- TEAM STATS ---------------- #
-
 st.subheader("Team Stats (1st Innings Phase Averages Irrespective of Venue)")
 
 if len(selected_teams) != 1:
@@ -397,8 +396,10 @@ else:
 
     team_phase_data = year_filtered_df[
     (year_filtered_df['Batting Team'] == team_name) &
-    (year_filtered_df['Innings'] == 1)
-].copy()
+    (year_filtered_df['Innings'] == 1)].copy()
+
+    team_innings_count = team_phase_data[
+    team_phase_data['Innings'] == 1].groupby(['Match', 'Date', 'Innings']).ngroups
 
     if len(team_phase_data) > 0:
 
@@ -418,6 +419,8 @@ else:
         ]
 
         phase_data_store = []
+
+        st.caption(f"Sample Size: {team_innings_count} innings")
 
         # ---------- FIRST PASS: RAW AVERAGES ---------- #
 
@@ -561,8 +564,12 @@ else:
 
     venue_phase_data = year_filtered_df[
     (year_filtered_df['Venue'] == venue_name) &
-    (year_filtered_df['Innings'] == 1)
-].copy()
+    (year_filtered_df['Innings'] == 1)].copy()
+
+    venue_innings_count = venue_phase_data[
+    venue_phase_data['Innings'] == 1].groupby(['Match', 'Date', 'Innings']).ngroups
+
+    st.caption(f"Sample Size: {venue_innings_count} innings")
 
     if len(venue_phase_data) > 0:
 
@@ -709,6 +716,12 @@ else:
 # ---------------- KPI SECTION ---------------- #
 
 st.subheader("Batter Stats")
+
+batter_innings_count = filtered[
+    filtered['Batter'].isin(selected_batters)
+].groupby(['Match', 'Date', 'Innings']).ngroups
+
+st.caption(f"Sample Size: {batter_innings_count} innings")
 
 total_runs = filtered['Runs'].sum()
 
