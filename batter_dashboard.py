@@ -253,6 +253,9 @@ video_links = {
     "R King": {
         "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260410_PLAYLIST_1080.mp4",
         "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260410_PLAYLIST_1080_1_2.mp4"
+    },
+    "AJ Freeborn": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260420_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12.mp4"
     }
 }
 
