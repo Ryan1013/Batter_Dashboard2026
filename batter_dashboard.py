@@ -401,6 +401,11 @@ year_filtered_df = data.copy()
 if selected_years:
     year_filtered_df = year_filtered_df[year_filtered_df['Year'].isin(selected_years)]
 
+def filter_completed_innings(year_filtered_df):
+      return year_filtered_df.groupby(['Match', 'Date', 'Innings']).filter(
+          lambda x: (x['Over'].max() >= 50) or (x['Team Wickets'].max() == 10)
+          )
+
 # ---------------- TEAM STATS ---------------- #
 st.subheader("Team Stats (1st Innings Phase Averages Irrespective of Venue)")
 
@@ -417,6 +422,9 @@ else:
     team_phase_data = year_filtered_df[
     (year_filtered_df['Batting Team'] == team_name) &
     (year_filtered_df['Innings'] == 1)].copy()
+    
+    # Keep only completed innings
+    team_phase_data = filter_completed_innings(team_phase_data)
 
     team_innings_count = team_phase_data[
     team_phase_data['Innings'] == 1].groupby(['Match', 'Date', 'Innings']).ngroups
@@ -585,6 +593,9 @@ else:
     venue_phase_data = year_filtered_df[
     (year_filtered_df['Venue'] == venue_name) &
     (year_filtered_df['Innings'] == 1)].copy()
+    
+    # Keep only completed innings
+    venue_phase_data = filter_completed_innings(venue_phase_data)
 
     venue_innings_count = venue_phase_data[
     venue_phase_data['Innings'] == 1].groupby(['Match', 'Date', 'Innings']).ngroups
