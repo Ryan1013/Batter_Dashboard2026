@@ -264,7 +264,7 @@ st.sidebar.header("Filters")
 
 teams = sorted(data['Batting Team'].dropna().unique())
 
-default_team = "Kent Women" if "Kent Women" in teams else teams[0]
+default_team = "Glamorgan Women" if "Glamorgan Women" in teams else teams[0]
 
 selected_teams = st.sidebar.multiselect(
     "Batting Team",
@@ -422,7 +422,7 @@ else:
     team_phase_data = year_filtered_df[
     (year_filtered_df['Batting Team'] == team_name) &
     (year_filtered_df['Innings'] == 1)].copy()
-    
+
     # Keep only completed innings
     team_phase_data = filter_completed_innings(team_phase_data)
 
@@ -593,7 +593,7 @@ else:
     venue_phase_data = year_filtered_df[
     (year_filtered_df['Venue'] == venue_name) &
     (year_filtered_df['Innings'] == 1)].copy()
-    
+
     # Keep only completed innings
     venue_phase_data = filter_completed_innings(venue_phase_data)
 
