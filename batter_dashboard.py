@@ -299,7 +299,7 @@ st.sidebar.header("Filters")
 
 teams = sorted(data['Batting Team'].dropna().unique())
 
-default_team = "Glamorgan Women" if "Glamorgan Women" in teams else teams[0]
+default_team = "Gloucestershire Women" if "Gloucestershire Women" in teams else teams[0]
 
 selected_teams = st.sidebar.multiselect(
     "Batting Team",
