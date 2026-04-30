@@ -256,6 +256,38 @@ video_links = {
     },
     "AJ Freeborn": {
         "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260420_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12.mp4"
+    },
+    "MF Ahearne": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080.mp4"
+    },
+    "OG Daniels": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2.mp4"
+    },
+    "ER Geach": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5.mp4"
+    },
+    "RJ Halliday": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6_7.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6.mp4"
+    },
+    "PM Reddy": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6_7_8.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6_7_8_9.mp4"
+    },
+    "CN Skelton": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10.mp4"
+    },
+    "GA Start": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13.mp4"
+    },
+    "MG Story": {
+        "dismissal": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15.mp4",
+        "boundary": "https://vid.ecb.nvplay.net/video-highlights/2026/VPM_260430_PLAYLIST_1080_1_2_3_4_5_6_7_8_9_10_11_12_13_14.mp4"
     }
 }
 
